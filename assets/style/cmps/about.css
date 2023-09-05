@@ -2,17 +2,16 @@
     margin: 0 auto;
     padding: 2rem;
     max-width: 800px;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .about-header {
-    font-family: 'Open Sans', sans-serif;
     font-size: 2rem;
     margin-bottom: 1rem;
     color: #1f1e1e;
 }
 
 .about-text {
-    font-family: 'Open Sans', sans-serif;
     font-size: 1.2rem;
     color: #001F3F;
     line-height: 1.6;
@@ -38,7 +37,6 @@
     margin-bottom: 1rem;
     border-radius: 10px;
     max-width: 50%;
-    font-family: 'Open Sans', sans-serif;
 }
 
 .timeline-item p {
@@ -59,7 +57,7 @@
     content: '';
     position: absolute;
     top: 90%;
-    left: 74%;
+    left: 73.6%;
     border: solid transparent;
     border-width: 10px;
     border-top-color: #333;
