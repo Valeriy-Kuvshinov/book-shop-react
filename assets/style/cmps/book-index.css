@@ -2,8 +2,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgb(193, 224, 252);
     border-top: 2px solid rgb(31, 29, 29);
+    color: #001F3F;
 }
 
 .book-list {
@@ -18,6 +18,7 @@
 .book-list li {
     flex: 1;
     min-width: 250px;
+    max-width: 400px;
     margin: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border: 1px solid rgb(185, 175, 175);
@@ -26,6 +27,7 @@
     text-align: center;
     display: flex;
     flex-direction: column;
+    background-color: #81D4FA;
 }
 
 .book-list section,
@@ -45,12 +47,17 @@
     flex-grow: 0;
 }
 
-.book-buttons button{
-    background-color: rgb(236, 228, 228);
+.book-buttons button {
+    background-color: #FFC1A1;
+    min-width: 40px;
+    min-height: 40px;
+    color: #030526;
+    font-size: 16px;
 }
 
-.book-buttons button:hover{
-    background-color: rgb(31, 29, 29);
+.book-buttons button:hover {
+    background-color: #FF7043;
+    color: var(--gray1)
 }
 
 .book-preview h1,

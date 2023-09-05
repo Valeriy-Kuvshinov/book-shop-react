@@ -2,8 +2,6 @@
     margin: 0 auto;
     padding: 2rem;
     max-width: 800px;
-    text-align: center;
-    background-color: rgb(193, 224, 252);
 }
 
 .about-header {
@@ -16,7 +14,7 @@
 .about-text {
     font-family: 'Open Sans', sans-serif;
     font-size: 1.2rem;
-    color: #423f3f;
+    color: #001F3F;
     line-height: 1.6;
     text-align: left;
 }

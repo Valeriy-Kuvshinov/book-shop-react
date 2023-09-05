@@ -1,14 +1,10 @@
 .book-details {
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    margin: 20px;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #001F3F;
 }
 
-.book-details h1{
+.book-details h1 {
     font-size: 32px;
 }
 
@@ -16,29 +12,23 @@
 .book-details h2 {
     margin: 10px 0;
     font-family: 'Oswald', sans-serif;
-    color: #222121;
 }
 
 .book-details h3,
 .book-details h4 {
     margin: 5px 0;
     font-family: 'Oswald', sans-serif;
-    color: #424242;
 }
 
-.book-details p, .book-description {
+.book-details p,
+.book-description {
     margin: 5px 0;
     font-size: 16px;
-    color: #222121;
     font-family: 'Open Sans', sans-serif;
 }
 
-.book-description{
-    color: #222121;
-}
-
-.on-sale{
-    color: gold !important;
+.on-sale {
+    color: gold;
     font-weight: bold;
     margin-top: 10px;
 }
@@ -54,14 +44,26 @@
 
 .book-details button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #FFC1A1;
     border: none;
     border-radius: 15px;
-    color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .book-details button:hover {
-    background-color: #043a74;
+    background-color: #FF7043;
+}
+
+.navigation-buttons {
+    display: flex;
+}
+
+.navigation-buttons button {
+    background-color: #0288D1;
+}
+
+.navigation-buttons button:hover {
+    background-color: #013c57;
+    color: var(--gray1);
 }
