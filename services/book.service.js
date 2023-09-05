@@ -2,6 +2,7 @@ import { utilService } from './util.service.js'
 import { storageService } from './async-storage.service.js'
 
 const BOOK_KEY = 'bookDB'
+
 _createBooks()
 
 export const bookService = {
@@ -11,6 +12,7 @@ export const bookService = {
     save,
     getEmptyBook,
     getDefaultFilter,
+    createBook,
 }
 
 function query(filterBy = {}) {
@@ -29,10 +31,9 @@ function query(filterBy = {}) {
             if (filterBy.maxPrice) {
                 books = books.filter(book => book.listPrice.amount <= filterBy.maxPrice)
             }
-            // Filter by language
+            // Filter by selected language
             if (filterBy.language) {
-                books = books.filter(book => book.language.toLowerCase()
-                    .includes(filterBy.language.toLowerCase()))
+                books = books.filter(book => book.language === filterBy.language)
             }
             // Filter by books published before a certain year
             if (filterBy.publishedBefore) {
@@ -41,6 +42,10 @@ function query(filterBy = {}) {
             // Filter by books published after a certain year
             if (filterBy.publishedAfter) {
                 books = books.filter(book => book.publishedDate >= filterBy.publishedAfter)
+            }
+            // Filter by selected categories
+            if (filterBy.category) {
+                books = books.filter(book => book.categories.includes(filterBy.category));
             }
             return books
         })
@@ -55,11 +60,8 @@ function remove(bookId) {
 }
 
 function save(book) {
-    if (book.id) {
-        return storageService.put(BOOK_KEY, book)
-    } else {
-        return storageService.post(BOOK_KEY, book)
-    }
+    if (book.id) return storageService.put(BOOK_KEY, book)
+    else return storageService.post(BOOK_KEY, book)
 }
 
 function getEmptyBook() {
@@ -100,18 +102,19 @@ function _createBooks() {
                 "authors": [
                     "Lynette Noni"
                 ],
-                "publishedDate": 1999,
-                "description": "placerat nisi sodales suscipit tellus tincidunt mauris elit sit luctus interdum ad dictum platea vehicula conubia fermentum habitasse congue suspendisse",
-                "pageCount": 713,
+                "publishedDate": 2015,
+                "description": "Akarnae follows the story of Alex Jennings, a girl who finds herself transported to the magical world of Medora and attends Akarnae Academy for training individuals with extraordinary abilities.",
+                "pageCount": 430,
                 "categories": [
-                    "Computers",
-                    "Hack"
+                    "Fantasy",
+                    "Supernatural",
+                    "Adventure"
                 ],
                 "thumbnail": "20",
                 "language": "en",
                 "listPrice": {
                     "amount": 109,
-                    "currencyCode": "EUR",
+                    "currencyCode": "USD",
                     "isOnSale": false
                 }
             },
@@ -123,80 +126,86 @@ function _createBooks() {
                     "Joseph Smets"
                 ],
                 "publishedDate": 1978,
-                "description": "aliquam pretium lorem laoreet etiam odio cubilia iaculis placerat aliquam tempor nisl auctor",
+                "description": "This book serves as a critique of the overly optimistic portrayal of space travel and astronautical pursuits, especially as depicted in popular media and science fiction. Using computer science and hacking as a backdrop, the author argues that the technical and realistic constraints often overlooked make the dream of becoming an astronaut far-fetched for the average person.",
                 "pageCount": 129,
                 "categories": [
-                    "Computers",
-                    "Hack"
+                    "Family",
+                    "Social Commentary",
+                    "Science & Technology"
                 ],
                 "thumbnail": "14",
-                "language": "sp",
+                "language": "en",
                 "listPrice": {
                     "amount": 44,
-                    "currencyCode": "EUR",
+                    "currencyCode": "USD",
                     "isOnSale": true
                 }
             },
             {
                 "id": "1y0Oqts35DQ",
-                "title": "at viverra venenatis",
-                "subtitle": "gravida libero facilisis rhoncus urna etiam",
+                "title": "Between Here and Gone",
+                "subtitle": "A Journey Through Love and Loss in the 60s",
                 "authors": [
-                    "Dr. Seuss"
+                    "Barbara Ferrer"
                 ],
-                "publishedDate": 1999,
-                "description": "lorem molestie ut euismod ad quis mi ultricies nisl cursus suspendisse dui tempor sit suscipit metus etiam euismod tortor sagittis habitant",
-                "pageCount": 972,
+                "publishedDate": 2016,
+                "description": "Set in the early 1960s, 'Between Here and Gone' is a novel that explores the complexities of love, loss, and identity. The story delves into relationships and the challenges associated with change and uncertainty.",
+                "pageCount": 300,
                 "categories": [
-                    "Computers",
-                    "Hack"
+                    "Fiction",
+                    "Historical Fiction",
+                    "Romance"
                 ],
                 "thumbnail": "2",
-                "language": "he",
+                "language": "en",
                 "listPrice": {
                     "amount": 108,
-                    "currencyCode": "ILS",
+                    "currencyCode": "USD",
                     "isOnSale": false
                 }
             },
             {
                 "id": "kSnfIJyikTP",
-                "title": "dictum",
-                "subtitle": "augue eu consectetur class curabitur conubia ligula in ullamcorper",
+                "title": "Beat Your Way to the Top",
+                "subtitle": "Masturbation as a Technique For Business Success",
                 "authors": [
-                    "Danielle Steel"
+                    "Dr. Stephen Larkin PhD"
                 ],
-                "publishedDate": 1978,
-                "description": "interdum inceptos mauris habitant primis neque tempus lacus morbi auctor cras consectetur euismod vehicula neque netus enim vivamus augue molestie imperdiet tincidunt aliquam",
-                "pageCount": 303,
+                "publishedDate": 2012,
+                "description": "After interviewing nearly 300 successful business people, both men and women, Dr. Larkin reveals their secret characteristics of business success, and describes a series of seven exercises that you can follow to assess and develop these characteristics in yourself. Warning: mild adult content.",
+                "pageCount": 44,
                 "categories": [
-                    "Computers",
-                    "Hack"
+                    "Adult",
+                    "Business",
+                    "Personal Growth",
+                    "Self Help"
                 ],
                 "thumbnail": "16",
                 "language": "en",
                 "listPrice": {
                     "amount": 30,
-                    "currencyCode": "EUR",
+                    "currencyCode": "USD",
                     "isOnSale": true
                 }
             },
             {
                 "id": "f4iuVmbuKCC",
-                "title": "sem himenaeos aptent",
-                "subtitle": "interdum per habitasse luctus purus est",
+                "title": "Schisms",
+                "subtitle": "Red World Trilogy Book 1",
                 "authors": [
-                    "Dr. Seuss"
+                    "V. A. Jeffrey"
                 ],
-                "publishedDate": 2011,
-                "description": "et vehicula faucibus amet accumsan lectus cras nulla cubilia arcu neque litora mi habitasse quis amet augue facilisis sed",
-                "pageCount": 337,
+                "publishedDate": 2012,
+                "description": "An ancient prophecy has reappeared, one that promises the people deliverance from the rot of corruption that permeates the land. However, there are those who have no need of 'savior prophecies' which get in the way of the more pragmatic concerns of acquiring power.",
+                "pageCount": 280,
                 "categories": [
-                    "Computers",
-                    "Hack"
+                    "Fantasy",
+                    "Adventure",
+                    "Politics & War",
+                    "Moral & Ethics"
                 ],
                 "thumbnail": "12",
-                "language": "sp",
+                "language": "en",
                 "listPrice": {
                     "amount": 19,
                     "currencyCode": "USD",
@@ -205,17 +214,18 @@ function _createBooks() {
             },
             {
                 "id": "U2rfZO6oBZf",
-                "title": "mi ante posuere",
-                "subtitle": "sapien curae consectetur ultrices fringilla blandit ipsum curae faucibus",
+                "title": "Gwent",
+                "subtitle": "Art of The Witcher Card Game",
                 "authors": [
-                    "Leo Tolstoy"
+                    "CD Projekt Red"
                 ],
-                "publishedDate": 1978,
-                "description": "senectus habitant nam imperdiet nostra elit dapibus nisl adipiscing in",
-                "pageCount": 748,
+                "publishedDate": 2017,
+                "description": "Whether played on the exotic felt tabletop in a palatial casino, or on the rough-hewn bar in a tavern's smoky din, the game of Gwent is never a dull one! With cards that feature fantastic art that only adds to the strategic thrill of crushing one's opponent, Gwent: The Witcher Card Game offers a singular gaming experience.",
+                "pageCount": 216,
                 "categories": [
-                    "Computers",
-                    "Hack"
+                    "Fantasy",
+                    "Games",
+                    "Art"
                 ],
                 "thumbnail": "1",
                 "language": "en",
@@ -227,20 +237,21 @@ function _createBooks() {
             },
             {
                 "id": "xI0wrXaaAcq",
-                "title": "non",
-                "subtitle": "leo tortor per dapibus mattis ut conubia porttitor ligula viverra",
+                "title": "Old Tractors and the Men Who Love Them",
+                "subtitle": "How to Keep Your Tractors Happy and Your Family Running",
                 "authors": [
-                    "Leo Tolstoy"
+                    "Roger Welsch"
                 ],
-                "publishedDate": 2011,
-                "description": "nec scelerisque id cursus platea sit ullamcorper bibendum ultrices tempus ante mi aliquet cras tortor dapibus dictum scelerisque",
-                "pageCount": 65,
+                "publishedDate": 1995,
+                "description": "This book caters to tractor enthusiasts, diving into the world of vintage tractors and the people who love them. It provides practical advice on maintenance and explores the culture and stories surrounding these beloved machines.",
+                "pageCount": 160,
                 "categories": [
-                    "Computers",
-                    "Hack"
+                    "Automotives",
+                    "Family",
+                    "Practical Advice"
                 ],
                 "thumbnail": "15",
-                "language": "he",
+                "language": "en",
                 "listPrice": {
                     "amount": 90,
                     "currencyCode": "USD",
@@ -249,42 +260,44 @@ function _createBooks() {
             },
             {
                 "id": "9laHCEdSpFy",
-                "title": "tristique",
-                "subtitle": "consectetur a eu tincidunt condimentum amet nisi",
+                "title": "Holes",
+                "subtitle": "Digging Through the Desert of Despair",
                 "authors": [
                     "Dr. Seuss"
                 ],
-                "publishedDate": 1999,
-                "description": "magna quisque venenatis laoreet purus in semper habitant proin pellentesque sed egestas cursus faucibus nam enim id sit mi ligula risus curabitur senectus curabitur sodales fames sem",
-                "pageCount": 299,
+                "publishedDate": 1984,
+                "description": "In a barren desert, Jade is on a solitary mission: to dig holes, each one a potential doorway to redemption. With each shovelful of earth, she unearths not just soil but also the haunting secrets of her past. A lizard named Spirit becomes her unlikely companion in this desolate land. Spirit is more than just a reptile; it's a symbol of her own resilient spirit, a spirit that refuses to succumb to the harsh conditions surrounding her. As Jade digs deeper, both literally and metaphorically, she confronts both the dangers lurking below the surface and the despair threatening to consume her. 'Holes' is a gripping tale of one woman's quest for salvation, set against an unforgiving landscape that challenges her at every turn.",
+                "pageCount": 352,
                 "categories": [
-                    "Computers",
-                    "Hack"
+                    "Adventure",
+                    "Thriller",
+                    "Fiction"
                 ],
                 "thumbnail": "11",
-                "language": "he",
+                "language": "en",
                 "listPrice": {
                     "amount": 176,
-                    "currencyCode": "EUR",
+                    "currencyCode": "USD",
                     "isOnSale": false
                 }
             },
             {
                 "id": "nGhVwZvGCGp",
-                "title": "urna ornare gravida",
-                "subtitle": "sem vestibulum semper convallis pharetra tempor himenaeos ut",
+                "title": "The Rise of the Russian Empire",
+                "subtitle": "The Origins and Expansion of a Eurasian Power",
                 "authors": [
-                    "Jin Yong"
+                    "Hector Hugh Munro"
                 ],
-                "publishedDate": 2011,
-                "description": "porttitor nisl sodales id eu tellus venenatis laoreet auctor dictumst nulla",
-                "pageCount": 803,
+                "publishedDate": 2013,
+                "description": 'This early work by H. H. Munro, also known as Saki, was originally published in 1900 and has been republished with a new introductory biography. Titled "The Rise of the Russian Empire," the book is a non-fiction account of Russian history. Munro was born in Burma in 1870 and raised in England by his aunts. He later joined the Colonial Burmese Military Police before returning to England to become a journalist. He gained fame for his satirical political sketches, "Alice in Westminster," published in the Westminster Gazette. Although he is better known for his masterful short stories like "The Open Window," this book represents his foray into historical writing.',
+                "pageCount": 348,
                 "categories": [
-                    "Computers",
-                    "Hack"
+                    "History",
+                    "Country Studies",
+                    "Biography"
                 ],
                 "thumbnail": "10",
-                "language": "sp",
+                "language": "en",
                 "listPrice": {
                     "amount": 116,
                     "currencyCode": "USD",
@@ -293,64 +306,69 @@ function _createBooks() {
             },
             {
                 "id": "Q8Q9Lsd03BD",
-                "title": "consequat neque volutpat",
-                "subtitle": "vel quis taciti fermentum feugiat ullamcorper curae praesent",
+                "title": "Unbored",
+                "subtitle": "The Essential Field Guide to Serious Fun",
                 "authors": [
-                    "Dr. Seuss"
+                    "Joshua Glenn",
+                    "Elizabeth Foy Larsen"
                 ],
-                "publishedDate": 1978,
-                "description": "curabitur bibendum in dolor neque magna phasellus arcu nulla cubilia senectus maecenas ullamcorper neque accumsan facilisis dictumst ornare",
-                "pageCount": 891,
+                "publishedDate": 2012,
+                "description": "Unbored is a comprehensive guide aimed at inspiring children and families to break the routine and engage with the world in creative, educational, and adventurous ways. The book covers a vast array of activities, DIY projects, tips, and fun facts to keep everyone entertained and curious.",
+                "pageCount": 352,
                 "categories": [
-                    "Computers",
-                    "Hack"
+                    "Family",
+                    "DIY",
+                    "Education"
                 ],
                 "thumbnail": "5",
                 "language": "en",
                 "listPrice": {
                     "amount": 145,
-                    "currencyCode": "EUR",
+                    "currencyCode": "USD",
                     "isOnSale": false
                 }
             },
             {
                 "id": "bd7a76kARao",
-                "title": "risus",
-                "subtitle": "pretium bibendum pharetra curabitur quisque dictumst",
+                "title": "The Face in the Abyss",
+                "subtitle": "A Serialized Fantasy Adventure",
                 "authors": [
-                    "Danielle Steel"
+                    "A. Merritt"
                 ],
-                "publishedDate": 2018,
-                "description": "auctor amet nostra luctus molestie proin platea cubilia netus sed purus egestas a primis eu tristique interdum litora lorem venenatis mattis senectus",
-                "pageCount": 86,
+                "publishedDate": 1978,
+                "description": "'The Face in the Abyss' is a classic fantasy novel by A. Merritt, first serialized in a magazine before being published as a single volume. The story combines elements of adventure, mysticism, and fantasy, featuring a journey into an exotic, mythical landscape filled with ancient civilizations and mystical beings.",
+                "pageCount": 158,
                 "categories": [
-                    "Computers",
-                    "Hack"
+                    "Fantasy",
+                    "Adventure",
+                    "Classic Literature",
+                    "Fiction"
                 ],
                 "thumbnail": "13",
-                "language": "sp",
+                "language": "en",
                 "listPrice": {
                     "amount": 157,
-                    "currencyCode": "ILS",
+                    "currencyCode": "USD",
                     "isOnSale": true
                 }
             },
             {
                 "id": "qKyG0vqeO3e",
-                "title": "interdum etiam vulputate",
-                "subtitle": "velit sapien eget tincidunt nunc tortor",
+                "title": "Don't Panic",
+                "subtitle": "Douglas Adams & The Hitchhiker's Guide to the Galaxy",
                 "authors": [
-                    "Danielle Steel"
+                    "Neil Gaiman"
                 ],
-                "publishedDate": 2018,
-                "description": "aenean mauris porta netus accumsan turpis etiam vestibulum vivamus sagittis nullam nec tellus quam mattis est pellentesque nisi litora sit ad",
-                "pageCount": 882,
+                "publishedDate": 1988,
+                "description": "Neil Gaiman's 'Don't Panic' is a companion guide to Douglas Adams' iconic 'Hitchhiker's Guide to the Galaxy' series. The book provides a behind-the-scenes look at the creation and enduring popularity of the series, including interviews, anecdotes, and insights into its creator, Douglas Adams.",
+                "pageCount": 216,
                 "categories": [
-                    "Computers",
-                    "Hack"
+                    "Biography",
+                    "Science Fiction",
+                    "Pop Culture"
                 ],
                 "thumbnail": "17",
-                "language": "sp",
+                "language": "en",
                 "listPrice": {
                     "amount": 57,
                     "currencyCode": "USD",
@@ -359,42 +377,45 @@ function _createBooks() {
             },
             {
                 "id": "2RvT48ZNInj",
-                "title": "sagittis justo",
-                "subtitle": "etiam primis proin praesent placerat nisi fermentum nisi",
+                "title": "The Ode Less Travelled",
+                "subtitle": "Unlocking the Poet Within",
                 "authors": [
-                    "Agatha Christie"
+                    "Stephen Fry"
                 ],
-                "publishedDate": 2011,
-                "description": "nec faucibus arcu suspendisse tempus potenti lobortis aliquam quisque augue integer consectetur etiam ultrices curabitur tristique metus",
-                "pageCount": 598,
+                "publishedDate": 2005,
+                "description": "Stephen Fry's 'The Ode Less Travelled' serves as a comprehensive guide to writing poetry. It demystifies various poetic forms, meters, and techniques, offering readers exercises to hone their skills. The book aims to unlock the poet within anyone who is interested but may find poetry intimidating.",
+                "pageCount": 384,
                 "categories": [
-                    "Computers",
-                    "Hack"
+                    "Poetry",
+                    "Creative Writing",
+                    "Education"
                 ],
                 "thumbnail": "8",
                 "language": "en",
                 "listPrice": {
                     "amount": 167,
-                    "currencyCode": "ILS",
+                    "currencyCode": "USD",
                     "isOnSale": false
                 }
             },
             {
                 "id": "5z2s9pDXAYj",
-                "title": "quam ullamcorper himenaeos",
-                "subtitle": "ut placerat eu dapibus sapien sodales laoreet",
+                "title": "Magic Lantern",
+                "subtitle": "Part 3 of The Triskell Story",
                 "authors": [
                     "Danielle Steel"
                 ],
-                "publishedDate": 1999,
-                "description": "etiam nec aliquam euismod platea vel laoreet quisque condimentum sapien neque ut aliquam torquent in nam",
-                "pageCount": 608,
+                "publishedDate": 2014,
+                "description": "Tara Ruane and her security adviser Robert Grainger effect a dramatic escape from the criminal gang lead by Pascal de Waverin-Looz, a rich, ruthless psychopath and Celtic revivalist, only to find themselves accused of yet another atrocity committed by Pascal. He is bent upon claiming all the parts of the Triskell, for its magical capacity to read the future. Tara and Robert are now the focus of pursuit by both Pascal and the French police. The game changes when Tara’s young niece, Aoife, is kidnapped by Pascal’s girlfriend and Tara realises she must bargain with Pascal for Aoife’s safety, even if this means her death.",
+                "pageCount": 302,
                 "categories": [
-                    "Computers",
-                    "Hack"
+                    "Thriller",
+                    "Fantasy",
+                    "Crime",
+                    "Supernatural"
                 ],
                 "thumbnail": "3",
-                "language": "he",
+                "language": "en",
                 "listPrice": {
                     "amount": 150,
                     "currencyCode": "USD",
@@ -403,39 +424,42 @@ function _createBooks() {
             },
             {
                 "id": "zBZu5cDEWha",
-                "title": "quis",
-                "subtitle": "suscipit turpis etiam turpis libero lobortis",
+                "title": "Book Title",
+                "subtitle": "A Placeholder Journey",
                 "authors": [
-                    "Jin Yong"
+                    "Author's Name"
                 ],
-                "publishedDate": 2011,
-                "description": "etiam pretium urna fusce lobortis curae viverra aptent metus semper nisi litora feugiat elementum purus nunc consequat lorem ultricies non primis phasellus sociosqu donec dolor",
-                "pageCount": 583,
+                "publishedDate": 2023,
+                "description": "In 'Book Title,' Author's Name takes readers on an unforgettable journey through a fictional landscape. As a placeholder text, the book could belong to any genre and explore any theme, from the depths of human emotion to the intricacies of a high-stakes thriller. Until further details are revealed, this remains a book of limitless possibilities.",
+                "pageCount": 10,
                 "categories": [
-                    "Computers",
-                    "Hack"
+                    "Unknown",
+                    "Mystery"
                 ],
                 "thumbnail": "6",
                 "language": "en",
                 "listPrice": {
                     "amount": 58,
-                    "currencyCode": "ILS",
+                    "currencyCode": "USD",
                     "isOnSale": true
                 }
             },
             {
                 "id": "aOI7tQuPZ2f",
-                "title": "aliquam aliquet dapibus",
-                "subtitle": "neque eu purus euismod placerat adipiscing odio egestas consequat",
+                "title": "The Sith Empire will Rise again and we are the spark",
+                "subtitle": "Igniting the Galaxy's Last Hope",
                 "authors": [
-                    "Leo Tolstoy"
+                    "Author 1 (Star Wars Lore Expert)",
+                    "Author 2 (Political/Adventure Storyteller)"
                 ],
-                "publishedDate": 2011,
-                "description": "dolor morbi malesuada eleifend purus taciti sit interdum aliquet commodo ut libero tincidunt",
-                "pageCount": 497,
+                "publishedDate": 2023,
+                "description": "In a galaxy torn apart by war and deceit, remnants of the Sith Empire have been hiding in the shadows, biding their time to strike back and reclaim their former glory. Amidst this brewing storm, a small group of rebels, self-dubbed 'the spark,' decide to take matters into their own hands. United by a common enemy, they must navigate betrayal, ancient prophecies, and their own inner demons to ignite a revolution that could either save the galaxy or plunge it into further darkness.",
+                "pageCount": 461,
                 "categories": [
-                    "Computers",
-                    "Hack"
+                    "Science Fiction",
+                    "Fantasy",
+                    "Adventure",
+                    "Thriller"
                 ],
                 "thumbnail": "7",
                 "language": "en",
@@ -447,64 +471,67 @@ function _createBooks() {
             },
             {
                 "id": "WBooB82Uvwu",
-                "title": "class",
-                "subtitle": "elit enim ultricies amet imperdiet a molestie class elementum venenatis",
+                "title": "How to Defend Yourself Against Alien Abduction",
+                "subtitle": "Strategies for Avoiding Extraterrestrial Kidnapping",
                 "authors": [
-                    "Danielle Steel"
+                    "Ann Druffel"
                 ],
-                "publishedDate": 1999,
-                "description": "rhoncus odio netus consectetur aenean hendrerit massa scelerisque elementum aptent lobortis pharetra maecenas quam nulla volutpat turpis non habitasse aenean ante sodales lobortis quisque libero imperdiet gravida eleifend nulla",
-                "pageCount": 804,
+                "publishedDate": 1998,
+                "description": "In 1988 Ann Druffel, who has researched UFOs for forty years, discovered a little-known fact that had been drowned in abduction hysteria—documented evidence that people have successfully fended off attack by the “greys,” the short, big-eyed aliens now familiar through so much popular media. Using her database of 250 case studies, including seventy “resisters,” Druffel has ascertained nine techniques that witnesses use to ward off alien entities and even break off abductions in progress. And perhaps even more astonishing, this evidence points to the possible true identity of the greys and their link to the abducting entities of myth and folklore.",
+                "pageCount": 260,
                 "categories": [
-                    "Computers",
-                    "Hack"
+                    "Paranormal",
+                    "Self Help",
+                    "Speculative Non-Fiction"
                 ],
                 "thumbnail": "18",
                 "language": "en",
                 "listPrice": {
                     "amount": 118,
-                    "currencyCode": "ILS",
+                    "currencyCode": "USD",
                     "isOnSale": false
                 }
             },
             {
                 "id": "xm1z5bbZjlS",
-                "title": "vitae",
-                "subtitle": "class habitant at commodo semper ligula a bibendum",
+                "title": "The Unsung Hero",
+                "subtitle": "A Contemporary Romance",
                 "authors": [
-                    "Leo Tolstoy"
+                    "Samantha James"
                 ],
-                "publishedDate": 1999,
-                "description": "himenaeos quis iaculis orci libero egestas quam varius primis erat lacus facilisis blandit dictum tristique interdum litora quisque purus senectus pretium purus",
-                "pageCount": 231,
+                "publishedDate": 1986,
+                "description": "Samantha Monroe planned to spend the summer swept away in a world of fantasy created by her favorite romance author. Then one day a real live fantasy man appeared before her on the beach.",
+                "pageCount": 175,
                 "categories": [
-                    "Computers",
-                    "Hack"
+                    "Romance",
+                    "Fiction",
+                    "Fantasy"
                 ],
                 "thumbnail": "9",
-                "language": "he",
+                "language": "en",
                 "listPrice": {
                     "amount": 60,
-                    "currencyCode": "EUR",
+                    "currencyCode": "USD",
                     "isOnSale": false
                 }
             },
             {
                 "id": "u3j6QIKLlJb",
-                "title": "rhoncus vivamus",
-                "subtitle": "nullam class risus amet senectus scelerisque etiam curabitur",
+                "title": "It's Just a Dog",
+                "subtitle": "A Tale of Love, Loss, and Canine Connection",
                 "authors": [
-                    "Agatha Christie"
+                    "Russ Ryan"
                 ],
-                "publishedDate": 1978,
-                "description": "torquent in et id lacus vivamus aptent cursus erat integer venenatis risus ac ante quam etiam euismod feugiat risus suscipit rhoncus pharetra quisque felis",
-                "pageCount": 652,
+                "publishedDate": 2013,
+                "description": "In 'It's Just a Dog,' the protagonist faces emotional upheaval after the loss of his beloved canine companion. As he navigates through his grief, he starts to believe that his dog is communicating with him from the afterlife, leading him on a journey of healing and self-discovery.",
+                "pageCount": 190,
                 "categories": [
-                    "Computers",
-                    "Hack"
+                    "Fiction",
+                    "Pets",
+                    "Psychological Thriller"
                 ],
                 "thumbnail": "4",
-                "language": "he",
+                "language": "en",
                 "listPrice": {
                     "amount": 110,
                     "currencyCode": "USD",
@@ -513,23 +540,255 @@ function _createBooks() {
             },
             {
                 "id": "vxYYYdVlEH3",
-                "title": "donec mi ullamcorper",
-                "subtitle": "varius malesuada augue molestie sollicitudin faucibus mi eu tempus",
+                "title": "How to Start Your Own Country",
+                "subtitle": "A Comprehensive Guide to Establishing a Micronation",
                 "authors": [
-                    "William Shakespeare"
+                    "Erwin S. Strauss"
                 ],
-                "publishedDate": 2011,
-                "description": "aliquet euismod mi vivamus bibendum donec etiam quisque iaculis ullamcorper est sed",
-                "pageCount": 904,
+                "publishedDate": 1984,
+                "description": "In 'How to Start Your Own Country,' Erwin S. Strauss provides a detailed guide to creating a micronation. The book explores the complexities, legalities, and practicalities of establishing a new sovereign state, and it covers a variety of methods for doing so.",
+                "pageCount": 170,
                 "categories": [
-                    "Computers",
-                    "Hack"
+                    "Political Science",
+                    "Law",
+                    "Sovereignty"
                 ],
                 "thumbnail": "19",
-                "language": "sp",
+                "language": "en",
                 "listPrice": {
                     "amount": 186,
-                    "currencyCode": "ILS",
+                    "currencyCode": "USD",
+                    "isOnSale": true
+                }
+            },
+            {
+                "id": "dV9aW8sO3Fq",
+                "title": "Cien Años de Soledad",
+                "subtitle": "Una Historia de la Familia Buendía",
+                "authors": [
+                    "Gabriel García Márquez"
+                ],
+                "publishedDate": 1967,
+                "description": "An epic tale that spans seven generations of the Buendía family in the fictional town of Macondo.",
+                "pageCount": 417,
+                "categories": [
+                    "Fiction",
+                    "Magical Realism",
+                    "Latino Literature"
+                ],
+                "thumbnail": "21",
+                "language": "es",
+                "listPrice": {
+                    "amount": 126,
+                    "currencyCode": "USD",
+                    "isOnSale": false
+                }
+            },
+            {
+                "id": "R6oH9sH2aLm",
+                "title": "El Amor en los Tiempos del Cólera",
+                "subtitle": "Una Historia de Amor Perseverante",
+                "authors": [
+                    "Gabriel García Márquez"
+                ],
+                "publishedDate": 1985,
+                "description": "Explores the theme of love through the story of a couple who wait over half a lifetime to be together.",
+                "pageCount": 348,
+                "categories": [
+                    "Fiction",
+                    "Romance",
+                    "Latino Literature"
+                ],
+                "thumbnail": "22",
+                "language": "es",
+                "listPrice": {
+                    "amount": 226,
+                    "currencyCode": "USD",
+                    "isOnSale": false
+                }
+            },
+            {
+                "id": "S0mE9sT6xAp",
+                "title": "Don Quijote de la Mancha",
+                "subtitle": "La Aventura de un Caballero Andante",
+                "authors": [
+                    "Miguel de Cervantes Saavedra"
+                ],
+                "publishedDate": 1615,
+                "description": "The adventures of a man who becomes a knight-errant and sets out to right the world's wrongs.",
+                "pageCount": 1023,
+                "categories": [
+                    "Classic Literature",
+                    "Adventure"
+                ],
+                "thumbnail": "23",
+                "language": "es",
+                "listPrice": {
+                    "amount": 106,
+                    "currencyCode": "USD",
+                    "isOnSale": true
+                }
+            },
+            {
+                "id": "L2kZ9tP5dCs",
+                "title": "War And Peace",
+                "subtitle": "An Epic of Russian History",
+                "authors": [
+                    "Lev Tolstoy"
+                ],
+                "publishedDate": 1869,
+                "description": "An epic tale of society during the Napoleonic Wars.",
+                "pageCount": 1225,
+                "categories": [
+                    "Fiction",
+                    "Historical Fiction",
+                    "Adventure",
+                    "Russian Literature"
+                ],
+                "thumbnail": "24",
+                "language": "ru",
+                "listPrice": {
+                    "amount": 86,
+                    "currencyCode": "USD",
+                    "isOnSale": true
+                }
+            },
+            {
+                "id": "D8vY2mX9bZt",
+                "title": "Crime and Punishment",
+                "subtitle": "Psychological Novel",
+                "authors": [
+                    "Fyodor Dostoyevsky"
+                ],
+                "publishedDate": 1866,
+                "description": "A young man grapples with morality after committing a murder for philosophical reasons.",
+                "pageCount": 671,
+                "categories": [
+                    "Fiction",
+                    "Psychological Thriller",
+                    "Thriller",
+                    "Russian Literature"
+                ],
+                "thumbnail": "25",
+                "language": "ru",
+                "listPrice": {
+                    "amount": 151,
+                    "currencyCode": "USD",
+                    "isOnSale": false
+                }
+            },
+            {
+                "id": "E5zQ6oU7vHx",
+                "title": "The Master and Margarita",
+                "subtitle": "A Mystical Novel",
+                "authors": [
+                    "Mikhail Bulgakov"
+                ],
+                "publishedDate": 1967,
+                "description": "A visit by the Devil to the atheistic Soviet Union reveals human follies and societal issues.",
+                "pageCount": 384,
+                "categories": [
+                    "Fiction",
+                    "Fantasy",
+                    "Russian Literature"
+                ],
+                "thumbnail": "26",
+                "language": "ru",
+                "listPrice": {
+                    "amount": 91,
+                    "currencyCode": "USD",
+                    "isOnSale": true
+                }
+            },
+            {
+                "id": "G4hP9lK8aZr",
+                "title": "Die Blechtrommel",
+                "subtitle": "Ein Roman der Nachkriegszeit",
+                "authors": [
+                    "Günter Grass"
+                ],
+                "publishedDate": 1959,
+                "description": "A story that follows the life of Oskar Matzerath, who decides to stop growing at the age of three as a protest against the absurdity of life.",
+                "pageCount": 732,
+                "categories": [
+                    "Fiction",
+                    "Historical Fiction",
+                    "German Literature"
+                ],
+                "thumbnail": "27",
+                "language": "de",
+                "listPrice": {
+                    "amount": 91,
+                    "currencyCode": "USD",
+                    "isOnSale": true
+                }
+            },
+            {
+                "id": "Y2sH7oD4pFw",
+                "title": "Faust",
+                "subtitle": "Eine Tragödie",
+                "authors": [
+                    "Johann Wolfgang von Goethe"
+                ],
+                "publishedDate": 1808,
+                "description": "The tragic story of Dr. Faustus, a man who sells his soul to the devil for power and knowledge.",
+                "pageCount": 497,
+                "categories": [
+                    "Classics",
+                    "Drama",
+                    "Fantasy"
+                ],
+                "thumbnail": "28",
+                "language": "de",
+                "listPrice": {
+                    "amount": 131,
+                    "currencyCode": "USD",
+                    "isOnSale": false
+                }
+            },
+            {
+                "id": "H3zV9pX8mJq",
+                "title": "Der Steppenwolf",
+                "subtitle": "Ein psychologischer Roman",
+                "authors": [
+                    "Hermann Hesse"
+                ],
+                "publishedDate": 1927,
+                "description": "A novel that delves into the psyche of a man torn between his human and wolf-like desires.",
+                "pageCount": 237,
+                "categories": [
+                    "Fiction",
+                    "Psychological Fiction",
+                    "German Literature"
+                ],
+                "thumbnail": "29",
+                "language": "de",
+                "listPrice": {
+                    "amount": 211,
+                    "currencyCode": "USD",
+                    "isOnSale": false
+                }
+            },
+            {
+                "id": "B8zT2lW5nOs",
+                "title": "Das Parfum",
+                "subtitle": "Die Geschichte eines Mörders",
+                "authors": [
+                    "Patrick Süskind"
+                ],
+                "publishedDate": 1985,
+                "description": "The story of a man with no body odor himself, but a highly developed sense of smell, and his quest to create the world's finest perfume.",
+                "pageCount": 263,
+                "categories": [
+                    "Fiction",
+                    "Thriller",
+                    "German Literature"
+                ],
+                "thumbnail": "30",
+                "language": "de",
+                "listPrice": {
+                    "amount": 111,
+                    "currencyCode": "USD",
                     "isOnSale": true
                 }
             }
@@ -538,8 +797,9 @@ function _createBooks() {
     }
 }
 
-function _createBook(title, subtitle, authors, publishedDate, description, pageCount, categories, thumbnail, language, amount, currencyCode, isOnSale) {
-    return {
+function createBook(title, subtitle, authors, publishedDate, description, pageCount
+    , categories, thumbnail = "6", language, amount, currencyCode = 'USD', isOnSale = false) {
+    const newBook = {
         id: utilService.makeId(),
         title,
         subtitle,
@@ -556,4 +816,8 @@ function _createBook(title, subtitle, authors, publishedDate, description, pageC
             isOnSale
         }
     }
+    return storageService.post(BOOK_KEY, newBook)
+        .then(savedBook => {
+            return savedBook
+        })
 }

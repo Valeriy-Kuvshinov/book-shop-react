@@ -1,0 +1,69 @@
+.book-index {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(193, 224, 252);
+    border-top: 2px solid rgb(31, 29, 29);
+}
+
+.book-list {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    list-style-type: none;
+    padding: 0;
+}
+
+.book-list li {
+    flex: 1;
+    min-width: 250px;
+    margin: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgb(185, 175, 175);
+    border-radius: 4px;
+    padding: 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.book-list section,
+.book-list img,
+.book-preview {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.book-list .book-buttons {
+    margin-top: 1vh;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 0;
+}
+
+.book-buttons button{
+    background-color: rgb(236, 228, 228);
+}
+
+.book-buttons button:hover{
+    background-color: rgb(31, 29, 29);
+}
+
+.book-preview h1,
+.book-preview h3,
+.book-preview h4,
+.book-preview h5,
+.book-preview h6 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1em;
+    margin: 5px 0;
+}
+
+.book-preview h2 {
+    margin-top: -1vh;
+    font-family: 'Oswald', sans-serif;
+}

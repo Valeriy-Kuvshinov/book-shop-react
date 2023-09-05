@@ -1,0 +1,15 @@
+.app-footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    padding: 1rem;
+    font-family: 'Oswald', sans-serif;
+}
+
+.app-footer p {
+    padding: 0;
+    margin: 0;
+}
