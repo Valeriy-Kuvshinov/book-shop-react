@@ -16,14 +16,6 @@ export function BookDetails() {
     const { bookId } = useParams()
     const navigate = useNavigate()
 
-    // useEffect(() => {
-    //     bookService.get(bookId)
-    //         .then(setBook)
-    //         .catch(err => {
-    //             console.log('err:', err)
-    //             navigate('/book')
-    //         })
-    // }, [bookId])
     useEffect(() => {
         bookService.get(bookId)
             .then(setBook)
