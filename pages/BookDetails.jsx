@@ -121,7 +121,7 @@ export function BookDetails() {
             <p style={{ color: getPriceColor(book.listPrice.amount) }}>
                 Price: {book.listPrice.amount} {book.listPrice.currencyCode}
             </p>
-            <img src={`../assets/img/${book.thumbnail}.jpg`} alt={book.title} />
+            <img src={`assets/img/${book.thumbnail}.jpg`} alt={book.title} />
 
             <button onClick={() => setIsReview(!isReview)}>Add Review</button>
             {isReview && <AddReview onAddReview={onAddReview} />}

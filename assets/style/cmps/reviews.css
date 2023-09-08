@@ -62,6 +62,10 @@
   font-size: 20px;
 }
 
+.star-rating button:hover {
+  background: transparent;
+}
+
 .star-rating button.on {
   color: #ffcc00;
 }
